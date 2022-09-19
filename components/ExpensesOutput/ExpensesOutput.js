@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
     conatiner: {
         flex: 1,
         backgroundColor: GlobalStyles.colors.primary700,
-        padding: 24
+        paddingHorizontal: 24,
+        paddingBottom: 0,
+        paddingTop: 24,
     }
 })
