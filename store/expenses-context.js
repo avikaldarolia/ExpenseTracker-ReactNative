@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-
+import React from "react";
 
 const DUMMY_EXPENSES = [
     {
@@ -50,27 +50,38 @@ function expensesReducer(state, action) {
         case 'UPDATE':
             const updatableExpenseIndex = state.findIndex((expense) => expense.id === action.payload.id)
             const updatableExpense = state[updatableExpenseIndex]
-            const updateItem = { ...updateExpense, ...action.payload.data }
+            const updatedItem = { ...updatableExpense, ...action.payload.data }
+            const updatedExpenses = [...state]
+            updatedExpenses[updatableExpenseIndex] = updatedItem
+            return updatedExpenses
         case 'DELETE':
+            return state.filter((expense) => expense.id !== action.payload)
         default:
             return state
     }
 }
 
-function ExpensesContextProvider() {
+function ExpensesContextProvider({children}) {
     const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES)
 
     function addExpense(expenseData) {
         dispatch({ type: 'ADD', payload: expenseData })
     }
-    function deleteExpense(expenseData) {
+    function deleteExpense(id) {
         dispatch({ type: 'DELETE', payload: id })
     }
-    function updateExpense(expenseData) {
+    function updateExpense(id, expenseData) {
         dispatch({ type: 'UPDATE', payload: { id: id, data: expenseData } })
     }
+
+    const value = {
+        expenses: expensesState,
+        addExpense: addExpense,
+        updatedExpense: updateExpense,
+        deleteExpense: deleteExpense,
+    }
     return (
-        <ExpensesContext.Provider>
+        <ExpensesContext.Provider value={value}>
             {children}
         </ExpensesContext.Provider>
     )
