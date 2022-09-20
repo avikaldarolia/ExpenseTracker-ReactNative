@@ -16,13 +16,14 @@ function ManageExpense({ route, navigation }) {
     }, [navigation, isEditing])
 
     function deleteExpenseHandler() {
-
+        navigation.goBack()
     }
     function cancelHandler() {
-
+        navigation.goBack()
     }
     function confirmHandler() {
 
+        navigation.goBack()
     }
     return (
         <View style={styles.container}>
@@ -32,7 +33,7 @@ function ManageExpense({ route, navigation }) {
             </View>
             {isEditing &&
                 <View style={styles.deleteContainer}>
-                    <IconButton icon="trash" color={GlobalStyles.colors.error500} size={36} onPress={() => { deleteExpenseHandler }}
+                    <IconButton icon="trash" color={GlobalStyles.colors.error500} size={36} onPress={deleteExpenseHandler}
                     />
                 </View>
             }
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     deleteContainer: {
         paddingTop: 8,
         marginTop: 16,
-        borderWidth: 2,
+        borderTopWidth: 2,
         borderTopColor: GlobalStyles.colors.primary200,
         alignItems: 'center'
     }
